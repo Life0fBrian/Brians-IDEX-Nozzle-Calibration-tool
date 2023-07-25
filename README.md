@@ -1,6 +1,6 @@
 # Brians-IDEX-Nozzle-Calibration-tool
 
-As I almost finished my Anycubic i3 Mega IDEX mod (GitHub - Life0fBrian/Anycubic-i3-Mega-IDEX-mod: This mod converts the Anycubic i3 Mega into an IDEX 3D printer.) it was time to research on how to properly calibrate/determine the offsets of the two printheads/nozzles.
+As I almost finished my Anycubic i3 Mega IDEX mod ([GitHub - Life0fBrian/Anycubic-i3-Mega-IDEX-mod: This mod converts the Anycubic i3 Mega into an IDEX 3D printer.](https://github.com/Life0fBrian/Anycubic-i3-Mega-IDEX-mod)) it was time to research on how to properly calibrate/determine the offsets of the two printheads/nozzles.
 Most users seem to print some special patterns and change the offsets until everything is fine but the internet and a kind user from the Klipper discourse suggested using a webcam/camera.
 
 But how to get it done with a camera properly? There is at least one commercial solution consisting of a camera-box and software.
