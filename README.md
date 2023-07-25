@@ -14,6 +14,7 @@ You initially set up everything in the printer.cfg so the kinematic of your IDEX
 
 The cameras image plane must be parallel to the bed and the camera somehow fastened to the bed if you need to adjust Y offsets as well.
 Z offsets of the nozzles should be corrected before this whole procedure.
+The red circle where the nozzle tip has to fit in can be resized to have a better orientation.
 
 Then move T0 to for example X=100 and arrange the camera underneath its nozzle so that it is properly focused/sharp in the camera stream and so that the nozzle tip is congruent with the red circle in the center of the stream.
 Maybe you need to adjust camera focus or Z to achieve this.
