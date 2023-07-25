@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Brians IDEX Nozzle Calibration Tool</title>
+<style>
+	:root {
+		--CircleDia: 70px;
+		--CircleRadius: calc(var(--CircleDia) / 2);
+		--StreamHeight: 540px;
+		--StreamHeightHalf: calc(var(--StreamHeight) / 2);
+		--StreamWidth: 720px;
+		--StreamWidthHalf: calc(var(--StreamWidth) / 2);
+	}
+	
+	.overlay {
+		position: absolute;
+		width: var(--StreamWidth);
+		height: var(--StreamHeight);
+	}
+	
+	.overlay_horizontal {
+		position: relative;
+        width: var(--StreamWidth);
+		height: 0px;
+        top: var(--StreamHeightHalf);
+		left: -1px;
+		border: 1px dashed red;
+		z-index: 1;
+    }
+
+	.overlay_vertical {
+		position: relative;
+        width: 0px;
+		height: calc(var(--StreamHeight) - 1px);
+        top: -2px;
+		left: var(--StreamWidthHalf);
+		border: 1px dashed red;
+		z-index: 1;
+    }
+	
+	.overlay_circle {
+		position: absolute;
+		width: var(--CircleDia);
+		height: var(--CircleDia);
+		top: calc(var(--StreamHeightHalf) - var(--CircleRadius));
+		left: calc(var(--StreamWidthHalf) - var(--CircleRadius));
+		border-radius: 50%;
+		border: 1px solid red;
+		z-index: 1;
+	}
+		
+    .overlay_text_x {
+		position: absolute;
+        bottom: 10px;
+        left: 10px;
+        font-size: 2em;
+        color: red;
+        font-family: monospace;
+    }
+		
+    .overlay_text_y {
+        position: absolute;
+		writing-mode: vertical-lr;
+		text-orientation: sideways;
+        top: calc(var(--StreamHeight) - 70px);
+        left: 10px;
+		font-size: 2em;
+        color: red;
+        font-family: monospace;
+    }
+	
+	.input-error {
+		outline: 2px solid red;
+	}
+	
+	#container {
+		margin: 0px auto;
+		width: var(--StreamWidth);
+		height: var(--StreamHeight);
+		border: 1px solid black;
+	}
+	
+	#videoElement {
+		width: var(--StreamWidth);
+		height: var(--StreamHeight);
+		background-color: #C0C0C0;
+		transform: rotateX(180deg);
+		-webkit-transform:rotateX(180deg); /* Safari and Chrome */
+		-moz-transform:rotateX(180deg); /* Firefox */
+		z-index: -1;
+	}
+</style>
+</head>
+ 
+<body onload="loadBody()">
+<div id="container">
+	<div class="overlay">
+		<div class="overlay_horizontal">
+			<span class="overlay_text_x">X+ &rarr;</span>
+		</div>
+		<div class="overlay_vertical">
+			<span class="overlay_text_y">&larr; Y+</span>
+		</div>
+		<div class="overlay_circle">
+		</div>
+	</div>
+	<div>
+		<video autoplay="true" id="videoElement">
+		</video>
+	</div>
+	<div>
+		<label for="circle_size">Circle Diameter:
+			<input type="text" id="circle_size" name="circle_size" maxlength="3" size="5" value="")>
+		</label>
+		<button onclick="adjustCircle()" id="btn_circle">Adjust Circle</button>
+	</div>
+	<div>
+		<button id="stop">Stop Video</button>
+	</div>
+</div>
+<script>
+	var video = document.querySelector("#videoElement");
+	var stopVideo = document.querySelector("#stop");
+
+	function loadBody() {
+		var vDia = getComputedStyle(document.documentElement).getPropertyValue('--CircleDia');
+		document.getElementById("circle_size").value = parseInt(vDia); 
+	}
+
+	// Restricts input for the given textbox to the given inputFilter.
+	function setInputFilter(textbox, inputFilter, errMsg) {
+		["input", "keydown", "keyup", "mousedown", "mouseup", "select", "contextmenu", "drop", "focusout"].forEach(function(event) {
+			textbox.addEventListener(event, function(e) {
+				if (inputFilter(this.value)) {
+					// Accepted value.
+					if ([ "keydown", "mousedown", "focusout" ].indexOf(e.type) >= 0) {
+						this.classList.remove("input-error");
+						this.setCustomValidity("");
+					}
+			
+					this.oldValue = this.value;
+					this.oldSelectionStart = this.selectionStart;
+					this.oldSelectionEnd = this.selectionEnd;
+				}
+				else if (this.hasOwnProperty("oldValue")) {
+					// Rejected value: restore the previous one.
+					this.classList.add("input-error");
+					this.setCustomValidity(errMsg);
+					this.reportValidity();
+					this.value = this.oldValue;
+					this.setSelectionRange(this.oldSelectionStart, this.oldSelectionEnd);
+				}
+				else {
+					// Rejected value: nothing to restore.
+					this.value = "";
+				}
+			});
+		});
+	}
+
+	// Install input filters.
+	setInputFilter(document.getElementById("circle_size"), function(value) {
+		return /^\d*?\d*$/.test(value);
+	}, "Must be a digit.");
+
+	function adjustCircle() {
+		var vDia = Number(document.getElementById("circle_size").value);
+		var textbox = document.getElementById("circle_size");
+	
+		if (vDia > 9 && vDia < 301) {
+			textbox.classList.remove("input-error");
+			textbox.setCustomValidity("");
+			textbox.oldValue = this.value;
+			textbox.oldSelectionStart = this.selectionStart;
+			textbox.oldSelectionEnd = this.selectionEnd;
+			document.documentElement.style.setProperty('--CircleDia', vDia + "px");
+		} else {
+			textbox.classList.add("input-error");
+			textbox.setCustomValidity("Input too big or too small (10 - 300).");
+			textbox.reportValidity();
+			textbox.value = "";
+			textbox.setSelectionRange(this.oldSelectionStart, this.oldSelectionEnd);
+		};
+	};
+	
+	if (navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia || navigator.oGetUserMedia) {
+		navigator.mediaDevices.getUserMedia({ video: true })
+			.then(function(stream) {
+				video.srcObject = stream;
+			})
+			.catch(function(e) {
+				console.log("There was an error!");
+			});
+		}
+
+	stopVideo.addEventListener("click", stop, false);	
+	
+    function stop(error) {
+		var stream = video.srcObject;
+		var tracks = stream.getTracks();
+
+		for (var i = 0; i < tracks.length; i++) {
+			var track = tracks[i];
+			track.stop();
+		}
+
+		video.srcObject = null;
+    }
+</script>
+</body>
+</html>
