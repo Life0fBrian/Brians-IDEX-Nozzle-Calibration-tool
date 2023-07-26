@@ -7,10 +7,12 @@ But how to get it done with a camera properly? There is at least one commercial 
 I did not want to pay extra money but use the stuff I have here.
 As further research on suitable tools for this task was not successful I used inspiration from the WWW and the rest of my grey matter to write a small HTML-page that can run in a web browser almost everywhere and does not require admin rights under Windows.
 The GUI looks like follows:
-![tool](https://github.com/Life0fBrian/Brians-IDEX-Nozzle-Calibration-tool/assets/84620081/7baaee45-7333-4f96-82a7-7c21d9b99fdb)
+![tool](https://github.com/Life0fBrian/Brians-IDEX-Nozzle-Calibration-tool/assets/84620081/12bfa653-cea6-49d4-adc3-b3633115acbb)
+
 
 You initially set up everything in the printer.cfg so the kinematic of your IDEX printer is running properly and have your belts tightened and then you just home all axes and move either the print heads upwards (cartesian printer) or the bed downwards (CoreXY) so that a webcam or other camera fits underneath the nozzle with some space to it:
-![20230719_145510](https://github.com/Life0fBrian/Brians-IDEX-Nozzle-Calibration-tool/assets/84620081/dae516c0-4bfc-4631-b09e-e52d4d7405d3)
+![20230719_145510](https://github.com/Life0fBrian/Brians-IDEX-Nozzle-Calibration-tool/assets/84620081/5f23cbee-c5ba-41e5-bc52-1338a2ec885c)
+
 
 The cameras image plane must be parallel to the bed and the camera somehow fastened to the bed if you need to adjust Y offsets as well.
 Z offsets of the nozzles should be corrected before this whole procedure.
