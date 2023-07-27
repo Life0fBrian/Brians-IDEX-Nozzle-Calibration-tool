@@ -7,7 +7,7 @@ But how to get it done with a camera properly? There is at least one commercial 
 I did not want to pay extra money but use the stuff I have here.
 As further research on suitable tools for this task was not successful I used inspiration from the WWW and the rest of my grey matter to write a small HTML-page that can run in a web browser almost everywhere and does not require admin rights under Windows.
 The GUI looks like follows:
-![tool](https://github.com/Life0fBrian/Brians-IDEX-Nozzle-Calibration-tool/assets/84620081/12bfa653-cea6-49d4-adc3-b3633115acbb)
+![tool](https://github.com/Life0fBrian/Brians-IDEX-Nozzle-Calibration-tool/assets/84620081/7c5d4f9e-a1b0-4100-9625-95a5012b346f)
 
 
 You initially set up everything in the printer.cfg so the kinematic of your IDEX printer is running properly and have your belts tightened and then you just home all axes and move either the print heads upwards (cartesian printer) or the bed downwards (CoreXY) so that a webcam or other camera fits underneath the nozzle with some space to it:
@@ -23,3 +23,6 @@ Maybe you need to adjust camera focus or Z to achieve this.
 Then you switch to T1 and move its nozzle tip into the red circle as well via manual adjustments of X and/or Y.
 After that procedure you can read the X and maybe Y coordinates and get your offsets compared to the values of T0.
 The new calculated X value is represented by the position_endstop and position_max values on my cartesian setup in the DUAL_CARRIAGE section and the Y offset is set via SET_GCODE_OFFSET Y=xx in the T1 macro.
+
+## Changelog:
+2023-07-27: Updated GUI screen with latest version.
